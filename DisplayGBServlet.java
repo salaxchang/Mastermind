@@ -1,6 +1,9 @@
 package edu.metrostate.ics425.p5.sc831.servlet;
 
 import java.io.IOException;
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,16 +38,16 @@ public class DisplayGBServlet extends HttpServlet {
 	 
 		try { //(List<ColorBean>)
 			Game gameBoardList = Game.getInstance().getAllGuesses(); // do I need to add the colorGuessList to the gameboard?
-			log("I made it to Display Servlet!");
+			log("Testing inside Display Servlet!");
 			request.setAttribute("gameBoardList", gameBoardList); // don't think this (gameboard)list exists?
 		} catch (Exception e) {
 			log("Cannot get color guesses.");
 			e.printStackTrace();
 		}
-		RequestDispatcher requestDis = request.getRequestDispatcher("/index.jsp"); 
-		requestDis.forward(request, response);
-	}
+		request.getRequestDispatcher("/index.jsp").forward(request, response);
 
+	}
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

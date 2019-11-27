@@ -1,7 +1,9 @@
 package edu.metrostate.ics425.p5.sc831.servlet;
 
 import java.io.IOException;
-
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,41 +32,32 @@ public class AddGuessServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		//get params from jsp
-		String elementA = request.getParameter("elementA"); 
-		String elementB = request.getParameter("elementB");
-		String elementC = request.getParameter("elementC");
-		String elementD = request.getParameter("elementD");
-		int numOfGuesses = Integer.parseInt(request.getParameter("numOfGuesses"));
-		
-		log("I got parameters with values: " +elementA +elementB +elementC +elementD);
-		
-		//make the row of color guesses
-		ColorBean cb = new ColorBean(); // create bean of values
-		cb.setElementA(elementA);
-		cb.setElementB(elementB);
-		cb.setElementC(elementC);
-		cb.setElementD(elementD);
-		
-		//add the color guesses to the Gameboard
-		try {
-			Game.getInstance().addColorBean(cb); // adds CB to the (Gameboard List?) - is this right? (Debug)
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("errMsg", "Cannot add color guesses.");
-			} 
-		
-		// checks the guesses after cb is added to colorGuessList
-		try {
-			int numOfGuessesLeft = Game.getInstance().checkTurnsLeft(numOfGuesses);
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("errMsg", "Cannot check for number of guesses.");
-			} 
-		
-		RequestDispatcher requestDis = request.getRequestDispatcher("/displayGB"); 
-		requestDis.forward(request, response);	
-		
+		// 1. Get information
+				Game game = (Game) request.getSession().getAttribute("game");
+				if (game == null) {
+					request.getSession().invalidate();
+				} else {
+					//get params from jsp
+				String elementA = request.getParameter("elementA"); 
+				String elementB = request.getParameter("elementB");
+				String elementC = request.getParameter("elementC");
+				String elementD = request.getParameter("elementD");
+				int numOfGuesses = Integer.parseInt(request.getParameter("numOfGuesses"));
+				
+				log("I got parameters with values: " +elementA +elementB +elementC +elementD);
+				
+				//make the row of color guesses
+				ColorBean cb = new ColorBean(); // create bean by setting param values to
+				cb.setElementA(elementA);
+				cb.setElementB(elementB);
+				cb.setElementC(elementC);
+				cb.setElementD(elementD);
+				
+				// need to check the num of guesses left after cb is added to colorGuessList
+				
+				request.getRequestDispatcher("/displayGB").forward(request, response);
+				}
+			
 	}
 
 	/**

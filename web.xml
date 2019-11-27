@@ -5,6 +5,11 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   
+  <listener>
+  <description>HttpSessionListener</description>
+  <listener-class>edu.metrostate.ics425.p5.sc831.servlet.MastermindSessionListener</listener-class>
+ </listener>
+ 
   <servlet>
   	<servlet-name>AddGuess</servlet-name>
   	<servlet-class>edu.metrostate.ics425.p5.sc831.servlet.AddGuessServlet</servlet-class>
@@ -14,5 +19,19 @@
   	<servlet-name>AddGuess</servlet-name>
   	<url-pattern>/addGuess</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+  <servlet-name>ResetGameServlet</servlet-name>
+  <servlet-class>edu.metrostate.ics425.p5.sc831.servlet.ResetGameServlet</servlet-class>
+ </servlet>
+ 
+ <servlet-mapping>
+  <servlet-name>ResetGameServlet</servlet-name>
+  <url-pattern>/resetGame</url-pattern>
+ </servlet-mapping>
+ 
+  <session-config>
+  <session-timeout>30</session-timeout>
+ </session-config>
   
 </web-app>
